@@ -1,0 +1,24 @@
+name: Performance Benchmarks
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  benchmark:
+    name: Micro-Benchmarks & Memory Allocations
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+          cache: true
+
+      - name: Execute Raft & KV Benchmarks
+        run: go test -v -bench=. -benchmem -run=^$$ ./tests

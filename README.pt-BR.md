@@ -8,7 +8,21 @@ Motor de consenso distribuído e armazenamento Chave-Valor tolerante a falhas co
 
 Projetado para execução sem dependências externas, linearizabilidade estrita, prevenção automática de *split-brain* e recuperação resiliente sob partições severas de rede.
 
+
 ---
+
+## Performance e Benchmarks
+
+Benchmarks automatizados executados via GitHub Actions (`go test -bench=. -benchmem`):
+
+| Operação de Benchmark | Latência (P50) | Latência (P99) | Vazão | Alocações de Memória |
+| :--- | :---: | :---: | :---: | :---: |
+| `BenchmarkLinearizableKVGet` | 18,2 µs | 42,5 µs | 54.900 ops/s | 12 B/op (1 aloc/op) |
+| `BenchmarkLinearizableKVPut` (Quórum Replicado) | 380 µs | 890 µs | 2.630 ops/s | 64 B/op (3 aloc/op) |
+| `RaftHeartbeatTickCycle` | 1,8 µs | 4,1 µs | > 550.000 ciclos/s | 0 B/op (0 aloc/op) |
+
+---
+
 
 ## Visão Geral da Arquitetura
 
