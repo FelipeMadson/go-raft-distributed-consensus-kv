@@ -131,6 +131,8 @@ func TestReElectionAfterLeaderDisconnect(t *testing.T) {
 	}
 
 	if !steppedDown {
-		t.Fatalf("former leader %d should have stepped down", leader1)
+		term1, isLeader1 := c.nodes[leader1].GetState()
+	term2, isLeader2 := c.nodes[leader2].GetState()
+	t.Fatalf("former leader %d (term %d, isLeader %v) should have stepped down; leader %d (term %d, isLeader %v)", leader1, term1, isLeader1, leader2, term2, isLeader2)
 	}
 }
