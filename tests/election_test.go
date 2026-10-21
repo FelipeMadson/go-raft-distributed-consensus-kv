@@ -120,10 +120,17 @@ func TestReElectionAfterLeaderDisconnect(t *testing.T) {
 
 	// Reconnect original leader, should become follower
 	c.net.Connect(leader1)
-	time.Sleep(200 * time.Millisecond)
+	steppedDown := false
+	for it := 0; it < 20; it++ {
+		time.Sleep(100 * time.Millisecond)
+		_, isLeader := c.nodes[leader1].GetState()
+		if !isLeader {
+			steppedDown = true
+			break
+		}
+	}
 
-	_, isLeader := c.nodes[leader1].GetState()
-	if isLeader {
+	if !steppedDown {
 		t.Fatalf("former leader %d should have stepped down", leader1)
 	}
 }
